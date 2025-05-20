@@ -6,22 +6,32 @@
   <title>Double Opt-in</title>
   <link rel="stylesheet" href="style.css"/>
 
-  <!-- Netcore CE SDK -->
   <script type="text/javascript">
     var smartech = smartech || [];
-    smartech.push(function() {
-      smartech.identify("");  
-    });
+    console.log("👉 Smartech array initialized");
 
     (function() {
+      console.log("👉 Start loading Smartech SDK");
       var st = document.createElement('script');
       st.type = 'text/javascript';
       st.async = true;
       st.src = 'https://cdn.smartech.cloud/smartpush/script.js'; 
       st.onload = function() {
-        console.log("Smartech SDK loaded");
+        console.log("✅ Smartech SDK loaded");
 
-        window.postMessage("smartech_push_optin", "*");
+        smartech.push(["create", "e7df984fa5892911af1cd0ffae51ebd0"]);
+        console.log("✅ Called smartech.create");
+
+        smartech.push(["register", "e7df984fa5892911af1cd0ffae51ebd0"]);
+        console.log("✅ Called smartech.register");
+
+        smartech.push(["identify", ""]);
+        console.log("✅ Called smartech.identify");
+
+        smartech.push(function() {
+          console.log("🚀 SDK is ready. Sending postMessage to parent...");
+          window.postMessage("smartech_push_optin", "*");
+        });
       };
       var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(st, s);
@@ -38,21 +48,25 @@
     </div>
   </div>
 
-<script>
-  function handleResponse(accepted) {
-    var message = {
-      event: "smartech_push_optin",
-      accepted: accepted
-    };
+  <script>
+    function handleResponse(accepted) {
+      console.log(`📤 User clicked: ${accepted ? "Accept" : "Decline"}`);
 
-    window.postMessage(JSON.stringify(message), "*");
+      var message = {
+        event: "smartech_push_optin",
+        accepted: accepted
+      };
 
-    document.querySelector('.container').innerHTML = `
-      <h2>Thanks for your response!</h2>
-      <p>You chose: <strong>${accepted ? "Yes" : "No"}</strong></p>
-    `;
-  }
-</script>
+      console.log("📤 Sending postMessage with response:", message);
+      window.postMessage(JSON.stringify(message), "*");
 
+      document.querySelector('.container').innerHTML = `
+        <h2>Thanks for your response!</h2>
+        <p>You chose: <strong>${accepted ? "Yes" : "No"}</strong></p>
+      `;
+    }
+
+    console.log("✅ WebView HTML loaded");
+  </script>
 </body>
 </html>
