@@ -6,28 +6,30 @@
   <title>Double Opt-in</title>
   <link rel="stylesheet" href="style.css"/>
 
+  <!-- ✅ Smartech App SDK để xử lý data-smt-action -->
   <script src="https://cdnt.netcoresmartech.com/smartech-app-sdk/scripts/dev/smartech-app-sdk.js?v=1.0.0"></script>
   <script>
-      SmartechAppSDK.init();
+    SmartechAppSDK.init();
+    console.log("✅ SmartechAppSDK initialized");
   </script>
-  
+
+  <!-- ✅ Smartech Push SDK -->
   <script type="text/javascript">
     var smartech = smartech || [];
-
     (function() {
       var st = document.createElement('script');
       st.type = 'text/javascript';
       st.async = true;
-      st.src = 'https://cdn.smartech.cloud/smartpush/script.js'; 
+      st.src = 'https://cdn.smartech.cloud/smartpush/script.js';
       st.onload = function() {
+        console.log("✅ Smartech Push SDK loaded");
 
         smartech.push(["create", "e7df984fa5892911af1cd0ffae51ebd0"]);
-
         smartech.push(["register", "e7df984fa5892911af1cd0ffae51ebd0"]);
-
-        smartech.push(["identify", ""]);
+        smartech.push(["identify", ""]);  
 
         smartech.push(function() {
+          console.log("📤 Sending postMessage to native app for double opt-in");
           window.postMessage("smartech_push_optin", "*");
         });
       };
@@ -36,34 +38,18 @@
     })();
   </script>
 </head>
+
 <body>
   <div class="container">
     <h1>Do you want to receive notifications?</h1>
     <p>Stay updated with our latest features and offers.</p>
+
     <div class="buttons">
-      <button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn" onclick="handleResponse(true)">Yes, I do</button>
-      <button class="buttons btn-deny" data-smt-action="SMTPushNotificationDoubleOptOut" onclick="handleResponse(false)">No, thanks</button>
-      <button class="buttons btn-allow" data-smt-action="SMTOpenAppDeviceSettings">Go to settings</button>
+      <!-- ✅ Smartech sẽ tự xử lý hành động thông qua data-smt-action -->
+      <button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn">Yes, I do</button>
+      <button class="buttons btn-deny" data-smt-action="SMTPushNotificationDoubleOptOut">No, thanks</button>
+      <button class="buttons btn-settings" data-smt-action="SMTOpenAppDeviceSettings">Go to settings</button>
     </div>
   </div>
-
-  <script>
-    function handleResponse(accepted) {
-      console.log(📤 User clicked: ${accepted ? "Accept" : "Decline"});
-
-      var message = {
-        event: "smartech_push_optin",
-        accepted: accepted
-      };
-
-      window.postMessage(JSON.stringify(message), "*");
-
-      document.querySelector('.container').innerHTML = 
-        <h2>Thanks for your response!</h2>
-        <p>You chose: <strong>${accepted ? "Yes" : "No"}</strong></p>
-      ;
-    }
-
-  </script>
 </body>
 </html>
