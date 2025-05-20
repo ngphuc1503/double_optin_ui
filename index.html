@@ -10,18 +10,17 @@
   <script type="text/javascript">
     var smartech = smartech || [];
     smartech.push(function() {
-      smartech.identify("");  // có thể để rỗng vì chỉ cần load SDK
+      smartech.identify("");  
     });
 
     (function() {
       var st = document.createElement('script');
       st.type = 'text/javascript';
       st.async = true;
-      st.src = 'https://cdn.smartech.cloud/smartpush/script.js'; // SDK Netcore CE
+      st.src = 'https://cdn.smartech.cloud/smartpush/script.js'; 
       st.onload = function() {
         console.log("Smartech SDK loaded");
 
-        // Gửi postMessage về Android WebView
         window.postMessage("smartech_push_optin", "*");
       };
       var s = document.getElementsByTagName('script')[0];
@@ -39,45 +38,21 @@
     </div>
   </div>
 
-  <!-- Gửi lại message khi người dùng click -->
-  <script>
-    function handleResponse(accepted) {
-      var message = {
-        event: "smartech_push_optin",
-        accepted: accepted
-      };
+<script>
+  function handleResponse(accepted) {
+    var message = {
+      event: "smartech_push_optin",
+      accepted: accepted
+    };
 
-      if (window.AndroidWebInterface) {
-        window.AndroidWebInterface.postMessage(JSON.stringify(message));
-      } else {
-        console.log("AndroidWebInterface not found");
-      }
+    window.postMessage(JSON.stringify(message), "*");
 
-      // Optional: hiển thị phản hồi
-      document.querySelector('.container').innerHTML = `
-        <h2>Thanks for your response!</h2>
-        <p>You chose: <strong>${accepted ? "Yes" : "No"}</strong></p>
-      `;
-    }
+    document.querySelector('.container').innerHTML = `
+      <h2>Thanks for your response!</h2>
+      <p>You chose: <strong>${accepted ? "Yes" : "No"}</strong></p>
+    `;
+  }
+</script>
 
-    // Đón nhận sự kiện message khi SDK load xong
-    window.addEventListener("message", function (event) {
-      if (
-        event.data === "smartech_push_optin" ||
-        (typeof event.data === "string" &&
-         event.data.indexOf("smartech_push_optin") !== -1)
-      ) {
-        var pushOptInData = {
-          event: "smartech_push_optin"
-        };
-
-        if (window.AndroidWebInterface) {
-          window.AndroidWebInterface.postMessage(JSON.stringify(pushOptInData));
-        } else {
-          console.log("AndroidWebInterface not found");
-        }
-      }
-    });
-  </script>
 </body>
 </html>
