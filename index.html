@@ -30,10 +30,15 @@
 
         smartech.push(function() {
           console.log("📤 Sending postMessage to native app for double opt-in");
-          if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
+          setTimeout(function () {
+            if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
+              console.log("✅ Calling AndroidBridge.onOptIn()");
               window.AndroidBridge.onOptIn();
-          }
-          window.postMessage("smartech_push_optin", "*");
+            } else {
+              console.warn("⚠️ AndroidBridge.onOptIn() not available yet");
+            }
+            window.postMessage("smartech_push_optin", "*");
+            }, 500); 
         });
       };
       var s = document.getElementsByTagName('script')[0];
