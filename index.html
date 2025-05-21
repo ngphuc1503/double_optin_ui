@@ -30,6 +30,9 @@
 
         smartech.push(function() {
           console.log("📤 Sending postMessage to native app for double opt-in");
+            if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
+                window.AndroidBridge.onOptIn();
+            }
           window.postMessage("smartech_push_optin", "*");
         });
       };
@@ -45,10 +48,20 @@
     <p>Stay updated with our latest features and offers.</p>
 
     <div class="buttons">
-      <!-- ✅ Smartech sẽ tự xử lý hành động thông qua data-smt-action -->
-      <button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn">Yes, I do</button>
-      <button class="buttons btn-deny" data-smt-action="SMTPushNotificationDoubleOptOut">No, thanks</button>
-      <button class="buttons btn-settings" data-smt-action="SMTOpenAppDeviceSettings">Go to settings</button>
+<button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn"
+        onclick="if (window.AndroidBridge && window.AndroidBridge.onOptIn) window.AndroidBridge.onOptIn();">
+  Yes, I do
+</button>
+
+<button class="buttons btn-deny" data-smt-action="SMTPushNotificationDoubleOptOut"
+        onclick="if (window.AndroidBridge && window.AndroidBridge.onOptOut) window.AndroidBridge.onOptOut();">
+  No, thanks
+</button>
+
+<button class="buttons btn-settings" data-smt-action="SMTOpenAppDeviceSettings"
+        onclick="if (window.AndroidBridge && window.AndroidBridge.openSettings) window.AndroidBridge.openSettings();">
+  Go to settings
+</button>
     </div>
   </div>
 </body>
