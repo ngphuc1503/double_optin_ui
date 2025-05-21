@@ -49,7 +49,13 @@
 
     <div class="buttons">
 <button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn"
-        onclick="if (window.AndroidBridge && window.AndroidBridge.onOptIn) window.AndroidBridge.onOptIn();">
+        onclick="console.log('Button allow clicked'); 
+                 if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
+                   console.log('Calling AndroidBridge.onOptIn()');
+                   window.AndroidBridge.onOptIn();
+                 } else {
+                   console.log('AndroidBridge.onOptIn() not available');
+                 }">
   Yes, I do
 </button>
 
