@@ -6,7 +6,7 @@
   <title>Double Opt-in</title>
   <link rel="stylesheet" href="style.css"/>
 
-  <!-- ✅ Smartech App SDK để xử lý data-smt-action -->
+  <!-- ✅ Smartech App SDK -->
   <script src="https://cdnt.netcoresmartech.com/smartech-app-sdk/scripts/dev/smartech-app-sdk.js?v=1.0.0"></script>
   <script>
     SmartechAppSDK.init();
@@ -30,9 +30,9 @@
 
         smartech.push(function() {
           console.log("📤 Sending postMessage to native app for double opt-in");
-            if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
-                window.AndroidBridge.onOptIn();
-            }
+          if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
+              window.AndroidBridge.onOptIn();
+          }
           window.postMessage("smartech_push_optin", "*");
         });
       };
@@ -48,26 +48,38 @@
     <p>Stay updated with our latest features and offers.</p>
 
     <div class="buttons">
-<button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn"
-        onclick="console.log('Button allow clicked'); 
-                 if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
-                   console.log('Calling AndroidBridge.onOptIn()');
-                   window.AndroidBridge.onOptIn();
-                 } else {
-                   console.log('AndroidBridge.onOptIn() not available');
-                 }">
-  Yes, I do
-</button>
+      <!-- ✅ Button Allow -->
+      <button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn"
+              onclick="console.log('✅ Button allow clicked'); 
+                       SmartechAppSDK.trackAction('SMTPushNotificationDoubleOptIn');
+                       if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
+                         console.log('✅ Calling AndroidBridge.onOptIn()');
+                         window.AndroidBridge.onOptIn();
+                       } else {
+                         console.log('❌ AndroidBridge.onOptIn() not available');
+                       }">
+        Yes, I do
+      </button>
 
-<button class="buttons btn-deny" data-smt-action="SMTPushNotificationDoubleOptOut"
-        onclick="if (window.AndroidBridge && window.AndroidBridge.onOptOut) window.AndroidBridge.onOptOut();">
-  No, thanks
-</button>
+      <!-- ✅ Button Deny -->
+      <button class="buttons btn-deny" data-smt-action="SMTPushNotificationDoubleOptOut"
+              onclick="console.log('🚫 Button deny clicked');
+                       SmartechAppSDK.trackAction('SMTPushNotificationDoubleOptOut');
+                       if (window.AndroidBridge && window.AndroidBridge.onOptOut) {
+                         window.AndroidBridge.onOptOut();
+                       }">
+        No, thanks
+      </button>
 
-<button class="buttons btn-settings" data-smt-action="SMTOpenAppDeviceSettings"
-        onclick="if (window.AndroidBridge && window.AndroidBridge.openSettings) window.AndroidBridge.openSettings();">
-  Go to settings
-</button>
+      <!-- ✅ Button Settings -->
+      <button class="buttons btn-settings" data-smt-action="SMTOpenAppDeviceSettings"
+              onclick="console.log('⚙️ Button settings clicked');
+                       SmartechAppSDK.trackAction('SMTOpenAppDeviceSettings');
+                       if (window.AndroidBridge && window.AndroidBridge.openSettings) {
+                         window.AndroidBridge.openSettings();
+                       }">
+        Go to settings
+      </button>
     </div>
   </div>
 </body>
