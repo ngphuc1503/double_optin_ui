@@ -7,10 +7,18 @@
   <link rel="stylesheet" href="style.css"/>
 
   <!-- ✅ Smartech App SDK -->
-  <script src="https://cdnt.netcoresmartech.com/smartech-app-sdk/scripts/dev/smartech-app-sdk.js?v=1.0.0"></script>
   <script>
-    SmartechAppSDK.init();
-    console.log("✅ SmartechAppSDK initialized");
+    var appSdk = document.createElement('script');
+    src="https://cdnt.netcoresmartech.com/smartech-app-sdk/scripts/dev/smartech-app-sdk.js?v=1.0.0">
+    appSdk.onload = function () {
+      console.log("✅ SmartechAppSDK loaded");
+      SmartechAppSDK.init();
+  
+      SmartechAppSDK.register("e7df984fa5892911af1cd0ffae51ebd0");
+
+      console.log("✅ SmartechAppSDK initialized and registered");
+    };
+    document.head.appendChild(appSdk);
   </script>
 
   <!-- ✅ Smartech Push SDK -->
