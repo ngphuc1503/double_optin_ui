@@ -56,7 +56,6 @@
       <!-- ✅ Button Allow -->
       <button class="buttons btn-allow" data-smt-action="SMTPushNotificationDoubleOptIn"
               onclick="console.log('✅ Button allow clicked'); 
-                       SmartechAppSDK.trackAction('SMTPushNotificationDoubleOptIn');
                        if (window.AndroidBridge && window.AndroidBridge.onOptIn) {
                          console.log('✅ Calling AndroidBridge.onOptIn()');
                          window.AndroidBridge.onOptIn();
@@ -69,7 +68,6 @@
       <!-- ✅ Button Deny -->
       <button class="buttons btn-deny" data-smt-action="SMTPushNotificationDoubleOptOut"
               onclick="console.log('🚫 Button deny clicked');
-                       SmartechAppSDK.trackAction('SMTPushNotificationDoubleOptOut');
                        if (window.AndroidBridge && window.AndroidBridge.onOptOut) {
                          window.AndroidBridge.onOptOut();
                        }">
@@ -79,7 +77,6 @@
       <!-- ✅ Button Settings -->
       <button class="buttons btn-settings" data-smt-action="SMTOpenAppDeviceSettings"
               onclick="console.log('⚙️ Button settings clicked');
-                       SmartechAppSDK.trackAction('SMTOpenAppDeviceSettings');
                        if (window.AndroidBridge && window.AndroidBridge.openSettings) {
                          window.AndroidBridge.openSettings();
                        }">
